@@ -1,0 +1,57 @@
+
+<div class="alert alert-primary" *ngIf="!pais; else divPais">
+  Espere por favor...
+</div>
+
+<ng-template #divPais>
+  <h1>País: {{ pais.names.common }}</h1>
+
+  <div class="row">
+    <div class="col-4">
+      <h3>Bandera</h3>
+      <div class="display-1">
+        <img
+          *ngIf="pais.flag?.url_png; else emojiBandera"
+          [src]="pais.flag?.url_png"
+          [alt]="'Bandera de ' + pais.names.common"
+          class="img-fluid">
+        <ng-template #emojiBandera>
+          {{ pais.flag?.emoji || '🏳️' }}
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>Información</h3>
+
+      <ul class="list-group">
+        <li class="list-group-item">
+          <strong>Población:</strong>
+          {{ pais.population | number }}
+        </li>
+
+        <li class="list-group-item">
+          <strong>Continente:</strong>
+          {{ pais.region || 'No disponible' }}
+        </li>
+
+        <li class="list-group-item">
+          <strong>Capital:</strong>
+          {{ pais.capitals?.[0]?.name || 'No disponible' }}
+        </li>
+
+        <li class="list-group-item">
+          <strong>Fronteras:</strong>
+
+          <span *ngIf="pais.borders?.length; else sinFronteras">
+            {{ pais.borders?.join(', ') }}
+          </span>
+
+          <ng-template #sinFronteras>
+            No tiene fronteras registradas.
+          </ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,41 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Bandera</th>
+            <th>Nombre</th>
+            <th>Población</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let pais of paises; let i = index">
+            <td>{{ i + 1 }}</td>
+
+            <td>
+                <img
+                    *ngIf="pais.flag?.url_png; else emojiBandera"
+                    [src]="pais.flag?.url_png"
+                    [alt]="'Bandera de ' + pais.names.common"
+                    width="40">
+                <ng-template #emojiBandera>
+                    {{ pais.flag?.emoji || '🏳️' }}
+                </ng-template>
+            </td>
+
+            <td>
+                {{ pais.capitals?.[0]?.name || 'Sin capital' }},
+                {{ pais.names.common }}
+            </td>
+
+            <td>{{ pais.population | number }}</td>
+
+            <td>
+                <a [routerLink]="['/pais', pais.codes.alpha_2]">
+                    Ver
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
